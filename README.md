@@ -1,3 +1,3 @@
 <p align="center">
-  <img src="HelpDesk.png" alt="Banner" width="10%">
+  <img src="banner.png" alt="Banner" width="75%">
 </p>
