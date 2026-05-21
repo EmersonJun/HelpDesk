@@ -1,4 +1,3 @@
-<!-- FOOTER PÚBLICO -->
 <footer style="background:#0f172a;color:#64748b;" class="py-4 mt-5">
     <div class="container">
         <div class="row align-items-center">

@@ -23,7 +23,6 @@
 </style>
 </head>
 <body>
-<!-- NAVBAR PÚBLICA -->
 <nav class="navbar navbar-expand-lg navbar-pub sticky-top">
     <div class="container">
         <a class="navbar-brand" href="<?= APP_URL ?>/?c=publico&a=index">
