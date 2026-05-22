@@ -5,7 +5,6 @@
     </div>
 
     <div class="row justify-content-center g-5">
-        <!-- Formulário -->
         <div class="col-lg-7">
             <?php if ($enviado): ?>
             <div class="alert alert-success d-flex align-items-center gap-3 p-4 rounded-3">
@@ -23,7 +22,6 @@
 
             <div class="card border-0 shadow-sm p-4 rounded-3">
                 <form method="POST" action="<?= APP_URL ?>/?c=publico&a=contato">
-                    <!-- Token CSRF -->
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
 
                     <div class="row g-3">
@@ -77,7 +75,6 @@
             <?php endif; ?>
         </div>
 
-        <!-- Informações de contato -->
         <div class="col-lg-4">
             <h5 class="fw-bold mb-4">Outras formas de contato</h5>
             <?php foreach([

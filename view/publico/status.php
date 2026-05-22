@@ -5,7 +5,6 @@
         <small class="text-muted"><i class="bi bi-clock me-1"></i>Atualizado em: <?= date('d/m/Y H:i:s') ?></small>
     </div>
 
-    <!-- Status geral -->
     <div class="text-center mb-5">
         <?php if ($sistemaOk): ?>
         <div class="d-inline-flex align-items-center gap-2 px-4 py-3 rounded-pill"
@@ -20,7 +19,6 @@
         <?php endif; ?>
     </div>
 
-    <!-- Serviços -->
     <div class="row justify-content-center mb-5">
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm">
@@ -45,7 +43,6 @@
         </div>
     </div>
 
-    <!-- Estatísticas públicas -->
     <?php if ($sistemaOk && $total > 0): ?>
     <div class="row justify-content-center">
         <div class="col-lg-7">

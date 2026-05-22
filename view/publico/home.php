@@ -1,4 +1,3 @@
-<!-- HERO -->
 <section class="hero text-white">
     <div class="container py-5">
         <div class="row align-items-center g-5">
@@ -29,7 +28,6 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <!-- Mini-dashboard decorativo -->
                 <div class="rounded-3 p-4" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
                     <div class="row g-3 mb-3">
                         <?php foreach([
@@ -61,7 +59,6 @@
     </div>
 </section>
 
-<!-- FUNCIONALIDADES -->
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
@@ -91,7 +88,6 @@
     </div>
 </section>
 
-<!-- PERFIS -->
 <section class="py-5 section-alt">
     <div class="container">
         <div class="text-center mb-5">
@@ -119,7 +115,6 @@
     </div>
 </section>
 
-<!-- CTA -->
 <section class="py-5" style="background:#4f46e5">
     <div class="container text-center text-white py-3">
         <h2 class="fw-bold mb-3">Pronto para começar?</h2>
