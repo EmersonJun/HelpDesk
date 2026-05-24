@@ -21,7 +21,6 @@ class ChamadoController extends BaseController {
         $this->notM = new NotificacaoModel();
     }
 
-    /* ---- LISTAGEM ---- */
     public function index(): void {
         $this->sessaoRequerida();
         $u = $this->user();
@@ -41,7 +40,6 @@ class ChamadoController extends BaseController {
         $this->render('chamados/index', compact('chamados','categorias','prioridades','atendentes','f','flash'));
     }
 
-    /* ---- FORMULÁRIO CRIAR ---- */
     public function create(): void {
         $this->sessaoRequerida();
         $categorias  = $this->catM->listarAtivas();
@@ -51,7 +49,6 @@ class ChamadoController extends BaseController {
         $this->render('chamados/create', compact('categorias','prioridades','flash'));
     }
 
-    /* ---- SALVAR NOVO ---- */
     public function store(): void {
         $this->sessaoRequerida();
         $this->validarCSRF();
@@ -78,14 +75,12 @@ class ChamadoController extends BaseController {
             'status'        => 'aberto',
         ]);
 
-        // Anexo opcional
         if (!empty($_FILES['anexo']['name'])) {
             $this->anM->upload($id, $u->id, $_FILES['anexo']);
         }
 
         $this->logM->registrar($u->id, 'CHAMADO_CRIADO', $id, "Chamado criado: {$titulo}");
 
-        // Notificar atendentes
         foreach ($this->usM->listarAtendentes() as $at) {
             if ($at->id !== $u->id)
                 $this->notM->criarParaUsuario($at->id, "Novo chamado #{$id}: {$titulo}", $id, 'info');
@@ -95,7 +90,6 @@ class ChamadoController extends BaseController {
         $this->redirect(APP_URL . '/?c=chamados&a=show&id=' . $id);
     }
 
-    /* ---- DETALHE ---- */
     public function show(): void {
         $this->sessaoRequerida();
         $u  = $this->user();
@@ -121,7 +115,6 @@ class ChamadoController extends BaseController {
             compact('chamado','comentarios','anexos','historico','atendentes','categorias','prioridades','flash','csrf_token'));
     }
 
-    /* ---- ADICIONAR COMENTÁRIO ---- */
     public function comentar(): void {
         $this->sessaoRequerida();
         $this->validarCSRF();
@@ -158,7 +151,6 @@ class ChamadoController extends BaseController {
         $this->redirect(APP_URL . '/?c=chamados&a=show&id=' . $idChamado . '#comentarios');
     }
 
-    /* ---- ATUALIZAR STATUS / ATENDENTE ---- */
     public function atualizarStatus(): void {
         $this->perfilRequerido(['atendente','admin']);
         $this->validarCSRF();
@@ -190,7 +182,6 @@ class ChamadoController extends BaseController {
         $this->redirect(APP_URL.'/?c=chamados&a=show&id='.$idChamado);
     }
 
-    /* ---- FORMULÁRIO EDITAR ---- */
     public function edit(): void {
         $this->perfilRequerido(['atendente','admin']);
         $id      = (int)($_GET['id'] ?? 0);
@@ -204,7 +195,6 @@ class ChamadoController extends BaseController {
         $this->render('chamados/edit', compact('chamado','categorias','prioridades','atendentes','flash'));
     }
 
-    /* ---- SALVAR EDIÇÃO ---- */
     public function update(): void {
         $this->perfilRequerido(['atendente','admin']);
         $this->validarCSRF();
@@ -225,7 +215,6 @@ class ChamadoController extends BaseController {
         $this->redirect(APP_URL.'/?c=chamados&a=show&id='.$id);
     }
 
-    /* ---- KANBAN VIEW ---- */
     public function kanban(): void {
         $this->perfilRequerido(['atendente','admin']);
         $u      = $this->user();
@@ -233,7 +222,6 @@ class ChamadoController extends BaseController {
         $this->render('chamados/kanban', compact('kanban'));
     }
 
-    /* ---- MOVER CARD KANBAN (AJAX) ---- */
     public function moverKanban(): void {
         $this->perfilRequerido(['atendente','admin']);
         $u      = $this->user();
@@ -259,7 +247,6 @@ class ChamadoController extends BaseController {
         $this->json(['ok'=>true]);
     }
 
-    /* ---- NOTIFICAÇÕES (AJAX) ---- */
     public function notificacoes(): void {
         $this->sessaoRequerida();
         $u  = $this->user();
@@ -269,7 +256,6 @@ class ChamadoController extends BaseController {
         $this->json(['ok'=>true, 'data'=>$lista]);
     }
 
-    /* ---- DOWNLOAD DE ANEXO ---- */
     public function download(): void {
         $this->sessaoRequerida();
         $id   = (int)($_GET['id'] ?? 0);
@@ -287,7 +273,6 @@ class ChamadoController extends BaseController {
         exit;
     }
 
-    /* ---- APAGAR CHAMADO (atendente + admin) ---- */
     public function apagarChamado(): void {
         $this->perfilRequerido(['atendente', 'admin']);
         $u  = $this->user();
