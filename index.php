@@ -58,11 +58,11 @@ if (!$usuarioLogado && !empty($_COOKIE['helpdesk_remember'])) {
 
 // ── Definir destino padrão ───────────────────────────────────
 if ($c === '') {
-    // Sem parâmetro nenhum na URL (raiz do sistema)
+   
     if ($usuarioLogado) {
         $c = 'dashboard'; // logado → vai direto ao dashboard
     } else {
-        $c = 'publico';   // não logado → página pública inicial
+        $c = 'publico';   
         $a = 'index';
     }
 }
