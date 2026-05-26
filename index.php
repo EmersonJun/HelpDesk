@@ -1,6 +1,6 @@
 <?php
 session_start();
-define('ROOT', _DIR_);
+define('ROOT', __DIR__);
 
 require_once 'config/config.php';
 require_once 'config/database.php';
@@ -37,6 +37,7 @@ $mapa = [
 
 $usuarioLogado = !empty($_SESSION['usuario']);
 if (!$usuarioLogado && !empty($_COOKIE['helpdesk_remember'])) {
+    // Faz login automático pelo cookie sem redirecionar
     try {
         $dados = json_decode(base64_decode($_COOKIE['helpdesk_remember']), true);
         if ($dados && isset($dados['email'], $dados['hash'])) {
@@ -51,18 +52,22 @@ if (!$usuarioLogado && !empty($_COOKIE['helpdesk_remember'])) {
             }
         }
     } catch (\Throwable $e) {
+        // Cookie inválido — ignora silenciosamente
     }
 }
 
+// ── Definir destino padrão ───────────────────────────────────
 if ($c === '') {
+    // Sem parâmetro nenhum na URL (raiz do sistema)
     if ($usuarioLogado) {
-        $c = 'dashboard';
+        $c = 'dashboard'; // logado → vai direto ao dashboard
     } else {
-        $c = 'publico';
+        $c = 'publico';   // não logado → página pública inicial
         $a = 'index';
     }
 }
 
+// ── Despachar para o controller ──────────────────────────────
 $classe = $mapa[$c] ?? null;
 
 if (!$classe || !method_exists($classe, $a)) {
