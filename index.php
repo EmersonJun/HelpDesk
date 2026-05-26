@@ -1,6 +1,6 @@
 <?php
 session_start();
-define('ROOT', _DIR_);
+define('ROOT', __DIR__);
 
 require_once 'config/config.php';
 require_once 'config/database.php';
@@ -55,10 +55,11 @@ if (!$usuarioLogado && !empty($_COOKIE['helpdesk_remember'])) {
 }
 
 if ($c === '') {
+   
     if ($usuarioLogado) {
         $c = 'dashboard';
     } else {
-        $c = 'publico';
+        $c = 'publico';   
         $a = 'index';
     }
 }
