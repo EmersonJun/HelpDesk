@@ -39,7 +39,7 @@ class AuthController extends BaseController {
                         setcookie('helpdesk_nome', $u->nome, [
                             'expires'  => time() + (30 * 24 * 3600),
                             'path'     => '/',
-                            'httponly' => false, 
+                            'httponly' => false,
                             'samesite' => 'Strict',
                         ]);
                     }
@@ -81,7 +81,7 @@ class AuthController extends BaseController {
         $pageTitle = 'Criar Conta — ' . APP_NAME;
         include ROOT . '/view/auth/register.php';
     }
-    
+
     public function salvarRegistro(): void {
         if (!empty($_SESSION['usuario'])) {
             $this->redirect(APP_URL . '/');
@@ -89,14 +89,17 @@ class AuthController extends BaseController {
 
         $this->validarCSRF();
 
-        $nome        = trim($_POST['nome']         ?? '');
-        $email       = trim($_POST['email']        ?? '');
-        $senha       = $_POST['senha']             ?? '';
-        $confirmacao = $_POST['confirmacao']       ?? '';
-        $departamento= trim($_POST['departamento'] ?? '');
-        $telefone    = trim($_POST['telefone']     ?? '');
+        $nome           = trim($_POST['nome']            ?? '');
+        $email          = trim($_POST['email']           ?? '');
+        $senha          = $_POST['senha']                ?? '';
+        $confirmacao    = $_POST['confirmacao']          ?? '';
+        $departamento   = trim($_POST['departamento']    ?? '');
+        $telefone       = trim($_POST['telefone']        ?? '');
+        $cpf            = trim($_POST['cpf']             ?? '');
+        $dataNascimento = trim($_POST['data_nascimento'] ?? '');
 
-        $dados = compact('nome', 'email', 'departamento', 'telefone');
+        $dados = compact('nome', 'email', 'departamento', 'telefone', 'cpf', 'data_nascimento');
+        $dados['data_nascimento'] = $dataNascimento;
         $erro  = null;
         $token = $this->gerarTokenCSRF();
 
@@ -123,9 +126,11 @@ class AuthController extends BaseController {
             'email'        => $email,
             'senha'        => password_hash($senha, PASSWORD_DEFAULT),
             'perfil'       => 'cliente',
-            'departamento' => htmlspecialchars($departamento),
-            'telefone'     => htmlspecialchars($telefone),
-            'ativo'        => 1,
+            'departamento'    => htmlspecialchars($departamento),
+            'telefone'        => htmlspecialchars($telefone),
+            'cpf'             => $cpf,
+            'data_nascimento' => $dataNascimento ?: null,
+            'ativo'           => 1,
         ]);
 
         $this->logs->registrar($id, 'REGISTRO', null, "Nova conta: {$email}");
@@ -137,4 +142,62 @@ class AuthController extends BaseController {
             'Conta criada com sucesso! Bem-vindo(a), ' . htmlspecialchars($nome) . '!');
         $this->redirect(APP_URL . '/');
     }
+
+    public function recuperarSenha(): void {
+        if (!empty($_SESSION['usuario'])) $this->redirect(APP_URL . '/');
+        $erro    = null;
+        $sucesso = false;
+        $etapa   = 1;
+        $idUser  = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->validarCSRF();
+
+            $etapa = (int)($_POST['etapa'] ?? 1);
+
+            if ($etapa === 1) {
+                $email      = trim($_POST['email']          ?? '');
+                $cpf        = trim($_POST['cpf']            ?? '');
+                $nascimento = trim($_POST['data_nascimento']?? '');
+
+                if (!$email || !$cpf || !$nascimento) {
+                    $erro = 'Preencha todos os campos.';
+                } else {
+                    $u = $this->usuarios->buscarParaRecuperacao($email, $cpf, $nascimento);
+                    if ($u) {
+                        $etapa  = 2;
+                        $idUser = $u->id;
+                        $_SESSION['recuperacao_id'] = $u->id;
+                        $_SESSION['recuperacao_ts'] = time();
+                    } else {
+                        $erro = 'Dados não conferem. Verifique e-mail, CPF e data de nascimento.';
+                    }
+                }
+            } elseif ($etapa === 2) {
+                $idUser      = (int)($_SESSION['recuperacao_id'] ?? 0);
+                $ts          = (int)($_SESSION['recuperacao_ts'] ?? 0);
+                $novaSenha   = $_POST['nova_senha']    ?? '';
+                $confirmacao = $_POST['confirmacao']   ?? '';
+
+                if (!$idUser || (time() - $ts) > 600) {
+                    $erro  = 'Sessão expirada. Tente novamente.';
+                    $etapa = 1;
+                } elseif (strlen($novaSenha) < 6) {
+                    $erro = 'A senha deve ter no mínimo 6 caracteres.';
+                } elseif ($novaSenha !== $confirmacao) {
+                    $erro = 'As senhas não coincidem.';
+                } else {
+                    $this->usuarios->atualizarSenha($idUser, $novaSenha);
+                    unset($_SESSION['recuperacao_id'], $_SESSION['recuperacao_ts']);
+                    $this->flash('success', 'Senha redefinida com sucesso! Faça login com a nova senha.');
+                    $this->redirect(APP_URL . '/?c=auth&a=login');
+                }
+            }
+        }
+
+        $token     = $this->gerarTokenCSRF();
+        $pageTitle = 'Recuperar Senha — ' . APP_NAME;
+        include ROOT . '/view/auth/recuperar_senha.php';
+    }
+
 }

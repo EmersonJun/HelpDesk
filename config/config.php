@@ -1,12 +1,12 @@
 <?php
 define('APP_NAME', 'HelpDesk Pro');
-define('APP_URL',  'http://localhost/helpdeskFinal');
+define('APP_URL',  'http://localhost/helpdeskCriar');
 
 define('DB_HOST', 'localhost');
 define('DB_PORT', '3307');      
 define('DB_NAME', 'helpdesk');
 define('DB_USER', 'root');
-define('DB_PASS', 'positivo');
+define('DB_PASS', '');
 
 define('UPLOAD_PATH', __DIR__ . '/../uploads/');
 define('UPLOAD_URL',  APP_URL . '/uploads/');

@@ -128,5 +128,14 @@ helpdesk/
 ---
 
 ## 👨‍💻 Desenvolvido por
-Projeto acadêmico — Desenvolvimento de Sistemas PHP
-Universidade Positivo — 2025
+
+| Membros |
+|---|
+| Taynara Piloneto mafra | 
+| Luiz Gustavo Amaral |
+| Bruno kuntze | 
+| Samanta Andrade |
+| Emerson Junior |
+
+## Projeto acadêmico — Desenvolvimento de Sistemas PHP
+## Universidade Positivo — 2025

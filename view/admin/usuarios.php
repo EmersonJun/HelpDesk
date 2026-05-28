@@ -118,6 +118,7 @@
     </div>
 </div>
 
+<!-- Modal Usuário -->
 <div class="modal fade" id="modalUsuario" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -155,6 +156,15 @@
                             <input type="text" name="telefone" id="uTel" class="form-control">
                         </div>
                         <div class="col-md-6">
+                            <label class="form-label">CPF</label>
+                            <input type="text" name="cpf" id="uCpf" class="form-control"
+                                   placeholder="000.000.000-00" maxlength="14">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Data de Nascimento</label>
+                            <input type="date" name="data_nascimento" id="uNasc" class="form-control">
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-check mt-4">
                                 <input class="form-check-input" type="checkbox" name="ativo" id="uAtivo" value="1" checked>
                                 <label class="form-check-label" for="uAtivo">Usuário ativo</label>
@@ -184,6 +194,8 @@ function limparModal() {
     document.getElementById('uPerfil').value = 'cliente';
     document.getElementById('uDepto').value  = '';
     document.getElementById('uTel').value    = '';
+    document.getElementById('uCpf').value    = '';
+    document.getElementById('uNasc').value   = '';
     document.getElementById('uSenha').value  = '';
     document.getElementById('uAtivo').checked = true;
     document.getElementById('senhaHint').textContent = '(obrigatório para novo usuário)';
@@ -196,6 +208,8 @@ function editarUsuario(u) {
     document.getElementById('uPerfil').value = u.perfil;
     document.getElementById('uDepto').value  = u.departamento ?? '';
     document.getElementById('uTel').value    = u.telefone ?? '';
+    document.getElementById('uCpf').value    = u.cpf ?? '';
+    document.getElementById('uNasc').value   = u.data_nascimento ?? '';
     document.getElementById('uAtivo').checked = u.ativo == 1;
     document.getElementById('senhaHint').textContent = '(deixe em branco para não alterar)';
 }
