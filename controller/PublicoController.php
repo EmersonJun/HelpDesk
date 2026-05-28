@@ -53,8 +53,9 @@ class PublicoController extends BaseController {
             ['nome' => 'Sistema de Notificações', 'ok' => $sistemaOk],
         ];
 
+        $prioridades = (new PrioridadeModel())->listarOrdenadas();
         $this->renderPublica('publico/status',
-            compact('pageTitle', 'servicos', 'contagens', 'slaVencidos', 'total', 'sistemaOk'));
+            compact('pageTitle', 'contagens', 'slaVencidos', 'total', 'sistemaOk', 'prioridades'));
     }
 
     public function contato(): void {
@@ -82,7 +83,6 @@ class PublicoController extends BaseController {
                     'httponly' => false,
                     'samesite' => 'Strict',
                 ]);
-
                 $enviado = true;
             }
         }
