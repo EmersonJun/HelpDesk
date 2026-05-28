@@ -1,6 +1,6 @@
 <?php
 define('APP_NAME', 'HelpDesk Pro');
-define('APP_URL',  'http://localhost/helpdeskFinal');
+define('APP_URL',  'http://localhost/helpdeskCriar');
 
 define('DB_HOST', 'localhost');
 define('DB_PORT', '3307');      
