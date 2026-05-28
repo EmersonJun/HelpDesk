@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
     perfil      ENUM('cliente','atendente','admin') DEFAULT 'cliente',
     departamento VARCHAR(100),
     telefone    VARCHAR(20),
+    cpf             VARCHAR(14),
+    data_nascimento DATE,
     ativo       TINYINT(1)   DEFAULT 1,
     created_at  DATETIME     DEFAULT CURRENT_TIMESTAMP,
     updated_at  DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -54,6 +56,10 @@ CREATE TABLE IF NOT EXISTS chamados (
 );
 
 ALTER TABLE chamados AUTO_INCREMENT = 100000;
+
+-- Adicionar campos CPF e data_nascimento (execute se o banco já existir)
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS cpf VARCHAR(14) AFTER telefone;
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS data_nascimento DATE AFTER cpf;
 
 CREATE TABLE IF NOT EXISTS comentarios (
     id          INT AUTO_INCREMENT PRIMARY KEY,

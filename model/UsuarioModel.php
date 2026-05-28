@@ -45,7 +45,7 @@ class UsuarioModel extends BaseModel {
         $st->execute($p);
         return $st->fetchAll();
     }
-    
+
     public function limparRegistrosSecundarios(int $id): void {
         $queries = [
             "DELETE FROM notificacoes WHERE id_usuario = ?",
@@ -58,4 +58,23 @@ class UsuarioModel extends BaseModel {
             $st->execute([$id]);
         }
     }
+
+    public function buscarParaRecuperacao(string $email, string $cpf, string $nascimento): ?object {
+        $st = $this->db->prepare(
+            "SELECT * FROM usuarios
+             WHERE email = ?
+             AND cpf = ?
+             AND data_nascimento = ?
+             AND ativo = 1"
+        );
+        $st->execute([$email, $cpf, $nascimento]);
+        return $st->fetch() ?: null;
+    }
+
+    public function atualizarSenha(int $id, string $novaSenha): void {
+        $this->atualizar($id, [
+            'senha' => password_hash($novaSenha, PASSWORD_DEFAULT)
+        ]);
+    }
+
 }
