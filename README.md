@@ -133,7 +133,7 @@ helpdesk/
 |---|
 | Taynara Piloneto mafra | 
 | Luiz Gustavo Amaral |
-| Bruno kuntze | 
+| Maria Vitoria | 
 | Samanta Andrade |
 | Emerson Junior |
 
