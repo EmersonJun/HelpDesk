@@ -17,7 +17,6 @@
         <p class="text-muted small">HelpDesk Pro</p>
     </div>
 
-    <!-- Barra de etapas -->
     <div class="d-flex gap-2 mb-4">
         <div class="flex-fill rounded-pill" style="height:5px;background:<?= $etapa>=1?'#4f46e5':'#e2e8f0' ?>"></div>
         <div class="flex-fill rounded-pill" style="height:5px;background:<?= $etapa>=2?'#4f46e5':'#e2e8f0' ?>"></div>
@@ -37,7 +36,6 @@
         <?php endif; ?>
 
         <?php if ($etapa === 1): ?>
-        <!-- ETAPA 1 — Identificação -->
         <p class="text-muted small mb-3">
             <span class="badge bg-primary me-1">1 de 2</span>
             Confirme sua identidade
@@ -74,7 +72,6 @@
         </button>
 
         <?php else: ?>
-        <!-- ETAPA 2 — Nova senha -->
         <p class="text-muted small mb-3">
             <span class="badge bg-success me-1">2 de 2</span>
             Identidade confirmada! Defina sua nova senha.
